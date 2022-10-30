@@ -44,13 +44,8 @@ def get_users_notes_for_categories(user_id, category_id):
 @app.route("/user", methods=["POST"])
 def create_user():
     info = {}
-    try:
-        info["name"] = request.get_json()["name"]
-        global user_id
-        user_id += 1
-        info["id"] = user_id
-    except:
-        return "Error"
+    info["name"] = request.get_json()["name"]
+    info["id"] = request.get_json()["id"]
     data.USERS.append(info)
     return info
 
@@ -58,13 +53,8 @@ def create_user():
 @app.route("/category", methods=["POST"])
 def create_category():
     info = {}
-    try:
-        info["title"] = request.get_json()["title"]
-        global category_id
-        category_id += 1
-        info["id"] = category_id
-    except:
-        return "Error"
+    info["title"] = request.get_json()["title"]
+    info["id"] = request.get_json()["id"]
     data.CATEGORIES.append(info)
     return info
 
@@ -73,18 +63,13 @@ def create_category():
 def create_note():
     info = request.get_json()
 
-    try:
-        if not (verification("id", request.get_json()["user_id"], data.USERS)
-                and verification("id", request.get_json()["category_id"], data.CATEGORIES)):
-            return "No such user or category"
+    if not (verification("id", request.get_json()["user_id"], data.USERS)
+            and verification("id", request.get_json()["category_id"], data.CATEGORIES)):
+        return "No such user or category"
 
-        global note_id
-        note_id += 1
-        info["id"] = note_id
-        info["date"] = datetime.datetime.now()
-        info["price"] = request.get_json()["price"]
-    except:
-        return "Error"
+    info["id"] = request.get_json()["id"]
+    info["date"] = datetime.datetime.now()
+    info["price"] = request.get_json()["price"]
 
     data.NOTES.append(info)
     return info
