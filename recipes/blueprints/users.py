@@ -2,6 +2,7 @@ from flask.views import MethodView
 from flask import request, jsonify
 from flask_smorest import Blueprint
 from recipes.data import USERS
+from recipes.schemas import UserSchema
 
 
 blp = Blueprint("users", __name__)
@@ -16,20 +17,16 @@ def verification(key, value, arr):
 
 @blp.route("/users")
 class GetUser(MethodView):
+    @blp.response(200, UserSchema(many=True))
     def get(self):
         return jsonify({"users": USERS})
 
 
 @blp.route("/user")
 class PostUser(MethodView):
-    def post(self):
-        info = {}
-        try:
-            info["name"] = request.get_json()["name"]
-            info["id"] = request.get_json()["id"]
-            if verification("id", request.get_json()["id"], USERS):
-                return "This user id is already exist."
-        except:
-            return 'Error while creating new user'
-        USERS.append(info)
-        return info
+    @blp.arguments(UserSchema)
+    def post(self, user_data):
+        if verification("id", user_data["id"], USERS):
+            return "This user id is already exist."
+        USERS.append(user_data)
+        return user_data
