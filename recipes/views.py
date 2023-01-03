@@ -13,9 +13,9 @@ def get_categories():
     return jsonify({"categories": data.CATEGORIES})
 
 
-@app.route("/users")
+'''@app.route("/users")
 def get_users():
-    return jsonify({"users": data.USERS})
+    return jsonify({"users": data.USERS})'''
 
 
 @app.route("/notes")
@@ -41,7 +41,7 @@ def get_users_notes_for_categories(user_id, category_id):
     return jsonify({"user": user_id, "category": category_id, "notes": notes})
 
 
-@app.route("/user", methods=["POST"])
+'''@app.route("/user", methods=["POST"])
 def create_user():
     info = {}
     try:
@@ -52,7 +52,7 @@ def create_user():
     except:
         return 'Error while creating new user'
     data.USERS.append(info)
-    return info
+    return info'''
 
 
 @app.route("/category", methods=["POST"])
