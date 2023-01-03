@@ -8,9 +8,9 @@ def default_page():
     return "Welcome to the main page."
 
 
-@app.route("/categories")
+'''@app.route("/categories")
 def get_categories():
-    return jsonify({"categories": data.CATEGORIES})
+    return jsonify({"categories": data.CATEGORIES})'''
 
 
 '''@app.route("/users")
@@ -55,7 +55,7 @@ def create_user():
     return info'''
 
 
-@app.route("/category", methods=["POST"])
+'''@app.route("/category", methods=["POST"])
 def create_category():
     info = {}
     try:
@@ -66,7 +66,7 @@ def create_category():
     except:
         return 'Error while creating new category.'
     data.CATEGORIES.append(info)
-    return info
+    return info'''
 
 
 @app.route("/note", methods=["POST"])
