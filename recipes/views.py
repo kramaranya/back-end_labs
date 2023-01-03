@@ -44,8 +44,13 @@ def get_users_notes_for_categories(user_id, category_id):
 @app.route("/user", methods=["POST"])
 def create_user():
     info = {}
-    info["name"] = request.get_json()["name"]
-    info["id"] = request.get_json()["id"]
+    try:
+        info["name"] = request.get_json()["name"]
+        info["id"] = request.get_json()["id"]
+        if verification("id", request.get_json()["id"], data.USERS):
+            return "This user id is already exist."
+    except:
+        return 'Error while creating new user'
     data.USERS.append(info)
     return info
 
@@ -53,8 +58,13 @@ def create_user():
 @app.route("/category", methods=["POST"])
 def create_category():
     info = {}
-    info["title"] = request.get_json()["title"]
-    info["id"] = request.get_json()["id"]
+    try:
+        info["title"] = request.get_json()["title"]
+        info["id"] = request.get_json()["id"]
+        if verification("id", request.get_json()["id"], data.CATEGORIES):
+            return "This category id is already exist."
+    except:
+        return 'Error while creating new category.'
     data.CATEGORIES.append(info)
     return info
 
@@ -63,13 +73,16 @@ def create_category():
 def create_note():
     info = request.get_json()
 
-    if not (verification("id", request.get_json()["user_id"], data.USERS)
-            and verification("id", request.get_json()["category_id"], data.CATEGORIES)):
-        return "No such user or category"
+    try:
+        if not (verification("id", request.get_json()["user_id"], data.USERS)
+                and verification("id", request.get_json()["category_id"], data.CATEGORIES)):
+            return "No such user or category"
 
-    info["id"] = request.get_json()["id"]
-    info["date"] = datetime.datetime.now()
-    info["price"] = request.get_json()["price"]
+        info["id"] = request.get_json()["id"]
+        info["date"] = datetime.datetime.now()
+        info["price"] = request.get_json()["price"]
+    except:
+        return 'Error while creating new note.'
 
     data.NOTES.append(info)
     return info

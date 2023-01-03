@@ -32,6 +32,10 @@ USERS = [
     {
         "id": 3,
         "name": "Sasha",
+    },
+    {
+        "id": 4,
+        "name": "Olya",
     }
 ]
 
