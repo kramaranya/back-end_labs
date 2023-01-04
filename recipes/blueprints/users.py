@@ -1,11 +1,11 @@
 from flask.views import MethodView
 from flask import request, jsonify
-from flask_smorest import Blueprint
+from flask_smorest import Blueprint, abort
 from recipes.data import USERS
 from recipes.schemas import UserSchema
 
 
-blp = Blueprint("users", __name__)
+blp = Blueprint("users", __name__, description="Operations on users")
 
 
 def verification(key, value, arr):
@@ -25,8 +25,9 @@ class GetUser(MethodView):
 @blp.route("/user")
 class PostUser(MethodView):
     @blp.arguments(UserSchema)
+    @blp.response(200, UserSchema)
     def post(self, user_data):
         if verification("id", user_data["id"], USERS):
-            return "This user id is already exist."
+            abort(400, message="This user id is already exist.")
         USERS.append(user_data)
         return user_data

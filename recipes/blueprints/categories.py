@@ -1,10 +1,10 @@
 from flask.views import MethodView
 from flask import request, jsonify
-from flask_smorest import Blueprint
+from flask_smorest import Blueprint, abort
 from recipes.data import CATEGORIES
 from recipes.schemas import CategorySchema
 
-blp = Blueprint("categories", __name__)
+blp = Blueprint("categories", __name__, description="Operations on categories")
 
 
 def verification(key, value, arr):
@@ -24,8 +24,9 @@ class GetCategory(MethodView):
 @blp.route("/category")
 class PostCategory(MethodView):
     @blp.arguments(CategorySchema)
+    @blp.response(200, CategorySchema)
     def post(self, category_data):
         if verification("id", category_data["id"], CATEGORIES):
-            return "This category id is already exist."
+            abort(400, message="This category id is already exist.")
         CATEGORIES.append(category_data)
         return category_data

@@ -1,11 +1,11 @@
 from flask.views import MethodView
 from flask import request, jsonify
-from flask_smorest import Blueprint
+from flask_smorest import Blueprint, abort
 from recipes.data import NOTES, CATEGORIES, USERS
 from recipes.schemas import NoteSchema
 import datetime
 
-blp = Blueprint("notes", __name__)
+blp = Blueprint("notes", __name__, description="Operations on notes")
 
 
 def verification(key, value, arr):
@@ -25,10 +25,12 @@ class GetNote(MethodView):
 @blp.route("/note")
 class PostNote(MethodView):
     @blp.arguments(NoteSchema)
+    @blp.response(200, NoteSchema)
     def post(self, note_data):
         if not (verification("id", note_data["user_id"], USERS)
-                and verification("id", note_data["category_id"], CATEGORIES)):
-            return "No such user or category"
+                and verification("id", note_data["category_id"], CATEGORIES)) or \
+                verification("id", note_data["id"], NOTES):
+            abort(400, message="No such user or category or note id is already exist")
         note_data["date"] = datetime.datetime.now()
         NOTES.append(note_data)
         return note_data
