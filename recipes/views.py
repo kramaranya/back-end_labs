@@ -1,13 +1,10 @@
-from flask import jsonify, request, app
-from flask import Flask
 from recipes import app
 from flask_smorest import Api
-from recipes.data import *
 from recipes.db import db
 
-from recipes.blueprints.users import blp as UserBlueprint
-from recipes.blueprints.categories import blp as CategoryBlueprint
-from recipes.blueprints.notes import blp as NoteBlueprint
+from recipes.blueprints.user import blp as UserBlueprint
+from recipes.blueprints.category import blp as CategoryBlueprint
+from recipes.blueprints.note import blp as NoteBlueprint
 
 
 app.config["PROPAGATE_EXCEPTION"] = True
