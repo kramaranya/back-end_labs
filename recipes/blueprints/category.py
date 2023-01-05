@@ -1,5 +1,7 @@
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+
+from recipes.models import UserModel
 from recipes.schemas import CategorySchema
 from recipes.models.category import CategoryModel
 from recipes.db import db
@@ -25,9 +27,12 @@ class CategoryList(MethodView):
     @blp.response(200, CategorySchema)
     def post(self, category_data):
         category = CategoryModel(**category_data)
+        user_id = category_data.get("user_id")
 
         try:
+            user = UserModel.query.filter(UserModel.id == user_id).one()
             db.session.add(category)
+            db.session.add(user)
             db.session.commit()
         except IntegrityError:
             abort(400, message="This category already exists")

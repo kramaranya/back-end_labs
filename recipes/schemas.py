@@ -9,6 +9,8 @@ class UserSchema(Schema):
 class CategorySchema(Schema):
     id = fields.Int(dump_only=True)
     title = fields.Str(required=True)
+    user_id = fields.Int(required=True)
+    is_private = fields.Bool(required=True)
 
 
 class NoteQuerySchema(Schema):
@@ -21,3 +23,4 @@ class NoteSchema(Schema):
     user_id = fields.Int(required=True)
     category_id = fields.Int(required=True)
     price = fields.Float(required=True)
+    date = fields.DateTime("%d-%m-%Y %H:%M", required=False)

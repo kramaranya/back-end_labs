@@ -1,5 +1,9 @@
+import sys
+
 from flask.views import MethodView
 from flask_smorest import Blueprint, abort
+from sqlalchemy import true
+
 from recipes.schemas import NoteSchema
 from recipes.models.note import NoteModel
 from recipes.models.category import CategoryModel
@@ -54,6 +58,9 @@ class NoteList(MethodView):
         try:
             category = CategoryModel.query.filter(CategoryModel.id == category_id).one()
             user = UserModel.query.filter(UserModel.id == user_id).one()
+            print(category.is_private, file=sys.stderr)
+            if category.is_private and category.user_id != user_id:
+                abort(404, message="Category is private")
             db.session.add(category)
             db.session.add(user)
             db.session.add(note)
@@ -61,6 +68,6 @@ class NoteList(MethodView):
         except NoResultFound:
             abort(404, message="Data not found")
         except IntegrityError:
-            abort(400, message="Ooops, creating bote went wrong!")
+            abort(400, message="Something went wrong")
 
         return note
