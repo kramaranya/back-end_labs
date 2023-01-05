@@ -14,9 +14,9 @@
 - [Production environment](https://drive.google.com/file/d/1fGUtEJxmVpVHnaBwlhC-fY0gHDLLxE-g/view?usp=sharing)
 
 `Lab 2:`
-- [Collection](https://drive.google.com/drive/folders/1jm95HdoZmg1HyC6KWyuGgQvgIua2w1sC?usp=sharing)
+- [Collection](https://drive.google.com/file/d/1ZzU1GYQRDNY0KX6Xb9KwDKLnnnGuTrCf/view?usp=share_link)
 
-- [Environment](https://drive.google.com/file/d/1W795tLODskgADhTzGYXfDwyfAmy2J4ZT/view?usp=sharing)
+- [Environment](https://drive.google.com/file/d/1W795tLODskgADhTzGYXfDwyfAmy2J4ZT/view?usp=share_link)
 ### Heroku
 - [Heroku App](https://backend-lab1-recipes.herokuapp.com/)
 
