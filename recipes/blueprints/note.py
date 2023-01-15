@@ -1,6 +1,7 @@
 import sys
 
 from flask.views import MethodView
+from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint, abort
 from sqlalchemy import true
 
@@ -18,6 +19,7 @@ blp = Blueprint("notes", __name__, description="Operations on notes")
 @blp.route("/note/<string:note_id>")
 class Note(MethodView):
     @blp.response(200, NoteSchema)
+    @jwt_required()
     def get(self, note_id):
         return NoteModel.query.get_or_404(note_id)
 
@@ -26,6 +28,7 @@ class Note(MethodView):
 class NotesList(MethodView):
     @blp.arguments(NoteQuerySchema, location="query", as_kwargs=True)
     @blp.response(200, NoteSchema(many=True))
+    @jwt_required()
     def get(self, **kwargs):
         user_id = kwargs.get("user_id")
 
@@ -45,11 +48,13 @@ class NotesList(MethodView):
 @blp.route("/note")
 class NoteList(MethodView):
     @blp.response(200, NoteSchema(many=True))
+    @jwt_required()
     def get(self):
         return NoteModel.query.all()
 
     @blp.arguments(NoteSchema)
     @blp.response(200, NoteSchema)
+    @jwt_required()
     def post(self, note_data):
         note = NoteModel(**note_data)
         user_id = note_data.get("user_id")

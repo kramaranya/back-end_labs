@@ -1,6 +1,6 @@
 from flask import jsonify
 from flask.views import MethodView
-from flask_jwt_extended import create_access_token
+from flask_jwt_extended import create_access_token, jwt_required
 from flask_smorest import Blueprint, abort
 from passlib.handlers.pbkdf2 import pbkdf2_sha256
 
@@ -15,6 +15,7 @@ blp = Blueprint("users", __name__, description="Operations on users")
 @blp.route("/user/<string:username>")
 class User(MethodView):
     @blp.response(200, UserSchema)
+    @jwt_required()
     def get(self, user_id):
         return UserModel.query.get_or_404(user_id)
 
@@ -22,6 +23,7 @@ class User(MethodView):
 @blp.route("/register")
 class UserRegister(MethodView):
     @blp.response(200, UserSchema(many=True))
+    @jwt_required()
     def get(self):
         return UserModel.query.all()
 

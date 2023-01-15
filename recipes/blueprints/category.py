@@ -1,4 +1,5 @@
 from flask.views import MethodView
+from flask_jwt_extended import jwt_required
 from flask_smorest import Blueprint, abort
 
 from recipes.models import UserModel
@@ -25,6 +26,7 @@ class CategoryList(MethodView):
 
     @blp.arguments(CategorySchema)
     @blp.response(200, CategorySchema)
+    @jwt_required()
     def post(self, category_data):
         category = CategoryModel(**category_data)
         user_id = category_data.get("user_id")
