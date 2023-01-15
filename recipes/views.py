@@ -1,6 +1,9 @@
+import os
+
 from recipes import app
 from flask_smorest import Api
 from recipes.db import db
+from flask_jwt_extended import JWTManager
 
 from recipes.blueprints.user import blp as UserBlueprint
 from recipes.blueprints.category import blp as CategoryBlueprint
@@ -16,10 +19,13 @@ app.config["OPENAPI_SWAGGER_UI_PATH"] = "/swagger-ui"
 app.config["OPENAPI_SWAGGER_UI_URL"] = "https://cdn.jsdelivr.net/npm/swagger-ui-dist/"
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
 api = Api(app)
 
 db.init_app(app)
+
+jwt = JWTManager(app)
 
 with app.app_context():
     db.create_all()
