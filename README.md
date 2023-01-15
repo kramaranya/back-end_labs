@@ -17,6 +17,9 @@
 - [Collection](https://drive.google.com/file/d/1ZzU1GYQRDNY0KX6Xb9KwDKLnnnGuTrCf/view?usp=share_link)
 
 - [Environment](https://drive.google.com/file/d/1W795tLODskgADhTzGYXfDwyfAmy2J4ZT/view?usp=share_link)
+
+`Lab 3:`
+- [Collection on Insomnia](https://drive.google.com/file/d/12MXYf2cm96noN2GRzmSmwbK0HvKPpdd8/view?usp=sharing)
 ### Heroku
 - [Heroku App](https://backend-lab1-recipes.herokuapp.com/)
 
