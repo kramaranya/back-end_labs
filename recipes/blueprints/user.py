@@ -39,7 +39,7 @@ class UserRegister(MethodView):
         except IntegrityError:
             abort(400, message="This username is already used")
 
-        return user
+        return jsonify({"id": user.id, "name": user.name})
 
 
 @blp.route("/login")
@@ -53,3 +53,4 @@ class UserLogin(MethodView):
             return jsonify({"status": "Ok", "access_token": access_token})
 
         return abort(400, message="User not found")
+
